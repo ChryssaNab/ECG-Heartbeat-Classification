@@ -47,7 +47,7 @@ def run(opt, patients):
     if opt.state == "pre-training":
         save_file_path = opt.output_path
     else:
-        save_file_path = os.path.join(opt.output_path, opt.state, patients)
+        save_file_path = os.path.join(opt.output_path, opt.state, patients[0])
     if not os.path.exists(save_file_path):
         os.makedirs(save_file_path)
 
@@ -55,7 +55,6 @@ def run(opt, patients):
     for epoch in range(opt.n_epochs):
         train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer)
         val_state = val_epoch(epoch, val_dataloader, model, criterion)
-        
         # Save checkpoints
         state = train_state.update(val_state)
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')
