@@ -20,7 +20,7 @@ def main():
         run(opt,  opt.selected_patients)
     elif opt.state == "individuals" or opt.state == "fine_tuning":
         for patient in opt.selected_patients:
-            print('\nPatient:', int(patient))
+            print('\nPatient:', patient)
             run(opt, [patient])
 
 
