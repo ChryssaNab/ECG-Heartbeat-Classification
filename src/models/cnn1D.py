@@ -1,3 +1,4 @@
+import copy
 import os
 import torch
 from torch import nn
@@ -78,6 +79,17 @@ class CNN1D(nn.Module):
         out = self.sigmoid(out)
         return out
 
+    # Get a deep copy of the network with the convolutional layers frozen. By default, the linear layers are not
+    # re-initialized unless specified otherwise.
+    # Discuss with team if this what we want to do
+    def get_frozen_cnn(self, keep_linear=True):
+        f_net = copy.deepcopy(self)
+        f_net.conv1.requires_grad_(False)
+        f_net.blocks.requires_grad_(False)
+        if not keep_linear:
+            f_net.linear.reset_parameters()
+            f_net.linear2.reset_parameters()
+        return f_net
 
 def cnn_1D(**kwargs):
     """ Constructs a 1D CNN model. """

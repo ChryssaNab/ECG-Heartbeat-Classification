@@ -90,6 +90,11 @@ def parse_opts():
         action='store_true',
         help='If true, pre-training is not performed; The pre-trained model is directly loaded.')
     parser.set_defaults(no_train=False)
+    parser.add_argument(
+        '--weighted_sampling',
+        type=bool,
+        help='Enable weighted sampling for training.'
+    )
 
     args = parser.parse_args()
 

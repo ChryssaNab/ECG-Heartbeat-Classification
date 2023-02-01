@@ -16,7 +16,7 @@ def test(data_loader, model, criterion):
 
             # Compute output
             outputs = model(inputs)
-            loss = criterion(outputs, targets.unsqueeze(1).float())
+            loss = criterion(outputs.cpu(), targets.unsqueeze(1).float())
             # Calculate loss
             test_loss += loss.item()
             # Make predictions

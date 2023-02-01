@@ -17,7 +17,7 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
 
         # Compute output
         outputs = model(inputs)
-        loss = criterion(outputs, targets.unsqueeze(1).float())
+        loss = criterion(outputs.cpu(), targets.unsqueeze(1).float())
         # Calculate loss
         train_loss += loss.item()
         # Make predictions

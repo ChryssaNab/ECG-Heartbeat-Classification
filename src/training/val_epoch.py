@@ -16,7 +16,7 @@ def val_epoch(epoch, data_loader, model, criterion, scheduler):
 
             # Compute output
             outputs = model(inputs)
-            loss = criterion(outputs, targets.unsqueeze(1).float())
+            loss = criterion(outputs.cpu(), targets.unsqueeze(1).float())
             # Calculate loss
             val_loss += loss.item()
             # Make predictions

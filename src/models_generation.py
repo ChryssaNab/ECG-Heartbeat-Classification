@@ -22,6 +22,7 @@ def generate_model(opt):
             print('Loading pretrained model {}'.format(opt.pretrain_path))
             checkpoint = torch.load(opt.pretrain_path)
             model.load_state_dict(checkpoint['state_dict'], strict=True)
+            model = model.get_frozen_cnn()
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = model.to(device)
