@@ -15,7 +15,6 @@ torch.manual_seed(0)
 
 def main():
     opt = parse_opts()
-    print("The list of the selected patients is:", opt.selected_patients)
 
     # Collect all patients data
     potential_patients = []
@@ -29,7 +28,8 @@ def main():
         # Pre-train the model on all the patients
         run(opt,  opt.selected_patients)
     elif opt.state == "individuals" or opt.state == "fine_tuning":
-        for patient in opt.selected_patients:
+        print("\nThe list of the selected patients is:", opt.selected_patients_fine_tuning)
+        for patient in opt.selected_patients_fine_tuning:
             print('\nPatient:', patient)
             run(opt, [patient])
 

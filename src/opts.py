@@ -15,9 +15,10 @@ def parse_opts():
         type=str,
         help='Output directory path')
     parser.add_argument(
-        '--selected_patients',
-        default=['104', '106', '119', '200', '201', '203', '207', '208', '209', '212', '213', '217',
-                 '221', '223', '231', '232', '233'],
+        '--selected_patients_fine_tuning',
+        default=['100', '102', '104', '105', '106', '108', '114', '116', '119', '200', '202', '201', '203', '205',
+                 '208', '209', '212', '210', '213', '215', '217', '219', '220', '222', '221', '228', '223', '231',
+                 '233'],
         type=list,
         help='List with the selected patients')
     parser.add_argument(
