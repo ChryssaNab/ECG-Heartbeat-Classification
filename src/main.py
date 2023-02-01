@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import random
 import torch
@@ -14,6 +16,14 @@ torch.manual_seed(0)
 def main():
     opt = parse_opts()
     print("The list of the selected patients is:", opt.selected_patients)
+
+    # Collect all patients data
+    potential_patients = []
+    for file in os.listdir(opt.data_path):
+        if file.endswith(".txt"):
+            potential_patients.append(os.path.basename(os.path.join(opt.data_path, file))[:3])
+
+    opt.selected_patients = potential_patients
 
     if opt.state == "pre-training":
         # Pre-train the model on all the patients

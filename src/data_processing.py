@@ -91,6 +91,17 @@ def resample_beats(beats, sample_size):
     return beats_resampled
 
 
+def exclude_patients(labels):
+    labels_distribution = np.array(np.unique(labels, return_counts=True)).T
+
+    if labels_distribution.shape[0] == 1:
+        return True
+    elif labels_distribution[1][1] / (labels_distribution[0][1] + labels_distribution[1][1]) < 0.009:
+        return True
+    else:
+        return False
+
+
 def resize_input(train_data, test_data):
     # Convert (N, D) to (N, 1, D) to fit the 1D CNN
     train_data = train_data.reshape((train_data.shape[0], 1, train_data.shape[1]))
@@ -110,6 +121,9 @@ def createData(opt, data_list):
         windows, labels = split_to_windows(signal.beat, signal_notes)
         # Resample every window to the same fixed size
         windows_resampled = resample_beats(windows, opt.input_size)
+        # Exclude patients belonging in extreme cases
+        if exclude_patients(labels):
+            continue
         # Split data to train and test sets
         train_set, test_set, train_annotations, test_annotations = train_test_split(windows_resampled, labels,
                                                                                     test_size=0.2, random_state=42, stratify=labels)
