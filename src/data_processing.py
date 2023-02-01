@@ -112,7 +112,7 @@ def createData(opt, data_list):
         windows_resampled = resample_beats(windows, opt.input_size)
         # Split data to train and test sets
         train_set, test_set, train_annotations, test_annotations = train_test_split(windows_resampled, labels,
-                                                                                    test_size=0.2, random_state=42)
+                                                                                    test_size=0.2, random_state=42, stratify=labels)
         # Fill arrays
         train_data.append(train_set)
         test_data.append(test_set)
@@ -128,7 +128,7 @@ def createData(opt, data_list):
     # Resize data to fit the CNN input
     train_data, test_data = resize_input(train_data, test_data)
     # Split training data to train and validation sets
-    x_train, x_val, y_train, y_val = train_test_split(train_data, train_labels, test_size=0.2, random_state=42)
+    x_train, x_val, y_train, y_val = train_test_split(train_data, train_labels, test_size=0.2, random_state=42, stratify=train_labels)
 
     return x_train, x_val, y_train, y_val, test_data, test_labels
 
