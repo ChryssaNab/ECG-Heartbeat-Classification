@@ -32,17 +32,20 @@ def val_epoch(epoch, data_loader, model, criterion):
     fn = confusion_vector[1][0]
     recall = tp / (tp + fn)
     precision = tp / (tp + fp)
+    specificity = tn / (tn + fp)
 
     # Save checkpoints
     state = {
         'epoch': epoch,
         'val_loss': val_loss / (batch_idx + 1),
         'val_accuracy': 100. * ((tp + tn) / total),
+        'val_balanced_accuracy': 100. * (recall + specificity) / 2,
         'val_recall': recall,
         'val_precision': precision,
         'val_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
     print(f"Validation accuracy: {100. * ((tp + tn) / total)}")
+    print(f"Validation balanced accuracy: {100. * (recall + specificity) / 2}")
 
     return state

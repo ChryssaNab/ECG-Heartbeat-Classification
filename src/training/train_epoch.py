@@ -36,6 +36,7 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
     fn = confusion_vector[1][0]
     recall = tp / (tp + fn)
     precision = tp / (tp + fp)
+    specificity = tn / (tn + fp)
 
     # Save checkpoints
     state = {
@@ -43,11 +44,13 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
         'epoch': epoch,
         'train_loss': train_loss / (batch_idx + 1),
         'train_accuracy': 100. * ((tp + tn) / total),
+        'train_balanced_accuracy': 100. * (recall + specificity) / 2,
         'train_recall': recall,
         'train_precision': precision,
         'train_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
     print(f"Training accuracy: {100. * ((tp + tn) / total)}")
+    print(f"Training balanced accuracy: {100. * (recall + specificity) / 2}")
 
     return state

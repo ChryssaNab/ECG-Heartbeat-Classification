@@ -30,16 +30,19 @@ def test(data_loader, model, criterion):
     fn = confusion_vector[1][0]
     recall = tp / (tp + fn)
     precision = tp / (tp + fp)
+    specificity = tn / (tn + fp)
 
     # Save checkpoints
     state = {
         'test_loss': test_loss / (batch_idx + 1),
         'test_accuracy': 100. * ((tp + tn) / total),
+        'test_balanced_accuracy': 100. * (recall + specificity) / 2,
         'test_recall': recall,
         'test_precision': precision,
         'test_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
     print(f"Test accuracy: {100. * ((tp + tn) / total)}")
+    print(f"Test balanced accuracy: {100. * (recall + specificity) / 2}")
 
     return state
