@@ -5,9 +5,9 @@ from torch import nn, optim
 from torchsummary import summary
 
 from data_processing import createData, get_dataloader
-from model_pretraining.test import test
-from model_pretraining.train_epoch import train_epoch
-from model_pretraining.val_epoch import val_epoch
+from training.test import test
+from training.train_epoch import train_epoch
+from training.val_epoch import val_epoch
 from models_generation import generate_model
 
 
@@ -55,6 +55,7 @@ def run(opt, patients):
     for epoch in range(opt.n_epochs):
         train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer)
         val_state = val_epoch(epoch, val_dataloader, model, criterion)
+        
         # Save checkpoints
         state = train_state.update(val_state)
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')
