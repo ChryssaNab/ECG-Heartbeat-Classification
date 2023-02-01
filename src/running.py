@@ -2,6 +2,7 @@ import os
 import torch
 
 from torch import nn, optim
+from torch.optim import lr_scheduler
 from torchsummary import summary
 
 from data_processing import createData, get_dataloader
@@ -23,7 +24,7 @@ def run(opt, patients):
 
     # Generate model for pre-training
     model, parameters = generate_model(opt)
-    txt = summary(model=model, input_size=(opt.input_size, opt.block_channels, opt.num_blocks, opt.kernel_size))
+    # txt = summary(model=model, input_size=(opt.input_size, opt.block_channels, opt.num_blocks, opt.kernel_size))
 
     # Define loss function (criterion) and optimizer
     criterion = nn.BCELoss(reduction="mean")
@@ -44,6 +45,20 @@ def run(opt, patients):
             nesterov=opt.nesterov
         )
 
+    # Set learning rate scheduler
+    if opt.lr_scheduler == 'reducelr':
+        scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=5)
+    elif opt.lr_scheduler == 'cycliclr':
+        if opt.optimizer.lower() == 'adam':
+            cycle_momentum = False
+        else:
+            cycle_momentum = True
+        scheduler = lr_scheduler.CyclicLR(optimizer, base_lr=0.001, max_lr=0.3, step_size_up=20, step_size_down=1000, cycle_momentum=cycle_momentum)
+    elif opt.lr_scheduler == 'cosAnnealing':
+        scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max=len(train_dataloader), eta_min=0, last_epoch=-1)
+    else:
+        scheduler = None
+
     if opt.state == "pre-training":
         save_file_path = opt.output_path
     else:
@@ -53,8 +68,10 @@ def run(opt, patients):
 
     # Start training
     for epoch in range(opt.n_epochs):
+
         train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer)
-        val_state = val_epoch(epoch, val_dataloader, model, criterion)
+        val_state, scheduler = val_epoch(epoch, val_dataloader, model, criterion, scheduler)
+
         # Save checkpoints
         state = train_state.update(val_state)
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')

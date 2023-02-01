@@ -5,6 +5,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 def test(data_loader, model, criterion):
+    # Switch to test mode
     model.eval()
     test_loss, total, confusion_vector = 0, 0, 0
 
@@ -42,7 +43,6 @@ def test(data_loader, model, criterion):
         'test_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
-    print(f"Test accuracy: {100. * ((tp + tn) / total)}")
-    print(f"Test balanced accuracy: {100. * (recall + specificity) / 2}")
+    print(f"Test Balanced Accuracy: {100. * (recall + specificity) / 2}")
 
     return state

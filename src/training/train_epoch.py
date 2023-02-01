@@ -5,7 +5,8 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 def train_epoch(epoch, data_loader, model, criterion, optimizer):
-    print('\nEpoch: %d' % epoch)
+    print('Epoch: {}, Learning Rate: {}'.format(epoch, optimizer.param_groups[0]['lr']))
+
     # Switch to train mode
     model.train()
     train_loss, total, correct, confusion_vector = 0, 0, 0, 0
@@ -50,7 +51,6 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
         'train_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
-    print(f"Training accuracy: {100. * ((tp + tn) / total)}")
-    print(f"Training balanced accuracy: {100. * (recall + specificity) / 2}")
+    print(f"Training Balanced Accuracy: {100. * (recall + specificity) / 2}")
 
     return state

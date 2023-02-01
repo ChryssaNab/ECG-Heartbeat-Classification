@@ -67,6 +67,11 @@ def parse_opts():
         type=str,
         help='Currently only support adam')
     parser.add_argument(
+        '--lr_scheduler',
+        default='reducelr',
+        type=str,
+        help='(reducelr | cycliclr | cosAnnealing)')
+    parser.add_argument(
         '--learning_rate',
         default=0.001,
         type=float,
