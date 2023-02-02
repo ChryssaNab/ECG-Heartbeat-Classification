@@ -3,6 +3,7 @@ import argparse
 
 def parse_opts():
     parser = argparse.ArgumentParser()
+
     # |----------------------------------------- Init settings ------------------------------------------------------|
     parser.add_argument(
         '--data_path',
@@ -34,6 +35,7 @@ def parse_opts():
         help='Input dimension')
     parser.add_argument(
         '--pretrain_path', default='../output/save_21.pth', type=str, help='Pretrained model (.pth)')
+
     # |------------------------------------------ CNN default settings ----------------------------------------------|
     parser.add_argument(
         '--num_blocks',
@@ -50,6 +52,7 @@ def parse_opts():
         default=5,
         type=int,
         help='Size of kernel in CNN')
+
     # |--------------------------------------- Training global settings ----------------------------------------------|
     parser.add_argument(
         '--optimizer',
@@ -73,6 +76,7 @@ def parse_opts():
         default=30,
         type=int,
         help='Maximum number of total epochs to run')
+
     # |---------------------------------------- Pre-training settings -----------------------------------------------|
     parser.add_argument(
         '--batch_size',
@@ -87,7 +91,7 @@ def parse_opts():
     parser.add_argument(
         '--weighted_sampling',
         type=bool,
-        default=False,
+        default=True,
         help='Enable weighted sampling for training.'
     )
 
