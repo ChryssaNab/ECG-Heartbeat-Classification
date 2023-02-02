@@ -14,16 +14,16 @@ from training.val_epoch import val_epoch
 from models_generation import generate_model
 from utils import WriteLogger
 
+
 def run(opt, patients):
 
-    print(opt)
     # Create global datasets for training, validation, and test
     x_train, x_val, y_train, y_val, x_test, y_test = createData(opt, patients)
 
     # Get dataloaders for train, validation, and test sets
-    train_dataloader = get_dataloader(x_train, y_train, batch_size=opt.batch_size, shuffle=True, drop_last=False, weightedSampling=opt.weighted_sampling)
-    val_dataloader = get_dataloader(x_val, y_val, batch_size=opt.batch_size, shuffle=True, drop_last=False, weightedSampling=False)
-    test_dataloader = get_dataloader(x_test, y_test, batch_size=opt.batch_size, shuffle=False, drop_last=False, weightedSampling=False)
+    train_dataloader = get_dataloader(x_train, y_train, batch_size=opt.batch_size, drop_last=False, weightedSampling=opt.weighted_sampling)
+    val_dataloader = get_dataloader(x_val, y_val, batch_size=opt.batch_size, drop_last=False, weightedSampling=False)
+    test_dataloader = get_dataloader(x_test, y_test, batch_size=opt.batch_size, drop_last=False, weightedSampling=False)
 
     # Generate model
     model, parameters = generate_model(opt)

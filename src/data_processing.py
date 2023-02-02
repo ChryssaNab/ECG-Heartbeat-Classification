@@ -146,6 +146,7 @@ def createData(opt, data_list):
 
     return x_train, x_val, y_train, y_val, test_data, test_labels
 
+
 def get_balanced_sampler(annotations):
 
     labels_distribution = np.array(np.unique(annotations, return_counts=True)).T
@@ -161,8 +162,7 @@ def get_balanced_sampler(annotations):
     return sampler
 
 
-def get_dataloader(data, labels, batch_size=32, shuffle=False, drop_last=False, weightedSampling=False):
-    #Important, this part should stay before the conversion of the labels to tensors
+def get_dataloader(data, labels, batch_size=32, drop_last=False, weightedSampling=False):
     # Set weighted sampler
     sampler = None
 
@@ -179,7 +179,7 @@ def get_dataloader(data, labels, batch_size=32, shuffle=False, drop_last=False, 
     # Get dataloader
     dataloader = DataLoader(dataset=dataset,
                             num_workers=0,
-                            batch_size=batch_size, #shuffle=shuffle, shuffle is mutually exclusive with sampler
+                            batch_size=batch_size,
                             pin_memory=True,
                             sampler=sampler,
                             drop_last=drop_last)
