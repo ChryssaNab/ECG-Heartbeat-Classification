@@ -1,6 +1,7 @@
 import os
 import shutil
 
+import numpy as np
 import torch
 
 from torch import nn, optim
@@ -25,7 +26,7 @@ def run(opt, patients):
     val_dataloader = get_dataloader(x_val, y_val, batch_size=opt.batch_size, shuffle=True, drop_last=False, weightedSampling=False)
     test_dataloader = get_dataloader(x_test, y_test, batch_size=opt.batch_size, shuffle=False, drop_last=False, weightedSampling=False)
 
-    # Generate model for pre-training
+    # Generate model
     model, parameters = generate_model(opt)
     # txt = summary(model=model, input_size=(opt.input_size, opt.block_channels, opt.num_blocks, opt.kernel_size))
 
@@ -48,7 +49,7 @@ def run(opt, patients):
             nesterov=opt.nesterov
         )
 
-    # Set learning rate scheduler
+    # Define learning rate scheduler
     if opt.lr_scheduler == 'reducelr':
         scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=5)
     elif opt.lr_scheduler == 'cycliclr':
@@ -80,10 +81,23 @@ def run(opt, patients):
     test_logger = WriteLogger(
         os.path.join(save_file_path, 'test.log'),  ['loss', 'accuracy', 'balanced_accuracy', 'recall', 'precision', 'F1-score'])
 
+    min_val_loss = np.inf
+    n_epochs_stop = 5
+    epochs_no_improve = 0
     for epoch in range(opt.n_epochs):
         # Start training
         train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer, train_logger)
-        scheduler = val_epoch(epoch, val_dataloader, model, criterion, scheduler, val_logger)
+        scheduler, val_loss = val_epoch(epoch, val_dataloader, model, criterion, scheduler, val_logger)
+
+        if opt.state == "individuals" or opt.state == "fine_tuning":
+            # If the validation loss is at a minimum
+            if val_loss < min_val_loss:
+                epochs_no_improve = 0
+                min_val_loss = val_loss
+            else:
+                epochs_no_improve += 1
+            if epoch > 10 and epochs_no_improve == n_epochs_stop:
+                break
 
         # Save model checkpoints
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')

@@ -50,4 +50,4 @@ def val_epoch(epoch, data_loader, model, criterion, scheduler, epoch_logger):
     print(f"Validation Balanced Accuracy: {100. * (recall + specificity) / 2}")
     print()
 
-    return scheduler
+    return scheduler, val_loss / (batch_idx + 1)

@@ -30,6 +30,8 @@ def main():
         test_balanced_accuracy = run(opt,  opt.selected_patients)
     elif opt.state == "individuals" or opt.state == "fine_tuning":
         print("\nThe list of the selected patients is:", opt.selected_patients_fine_tuning)
+        # Set early stopping criterion for individuals and fine-tuning mode
+        opt.early_stopping = True
         for patient in opt.selected_patients_fine_tuning:
             print('\nPatient:', patient)
             test_bal_acc = run(opt, [patient])

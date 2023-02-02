@@ -80,6 +80,11 @@ def parse_opts():
     parser.add_argument(
         '--weight_decay', default=1e-4, type=float, help='Weight Decay')
     parser.add_argument(
+        '--early_stopping',
+        action='store_false',
+        help='If true, we are on individuals or fine-tuning mode.')
+    parser.set_defaults(early_stopping=False)
+    parser.add_argument(
         '--n_epochs',
         default=30,
         type=int,
@@ -88,7 +93,7 @@ def parse_opts():
         '--pretrain_path', default='', type=str, help='Pretrained model (.pth)')
     parser.add_argument(
         '--no_pre_training',
-        action='store_true',
+        action='store_false',
         help='If true, pre-training is not performed; The pre-trained model is directly loaded.')
     parser.set_defaults(no_train=False)
     parser.add_argument(
