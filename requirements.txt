@@ -15,6 +15,6 @@ scikit-learn==1.2.1
 scipy==1.10.0
 six==1.16.0
 threadpoolctl==3.1.0
-torch==1.13.1+cu117
+torch==1.13.1
 torchsummary==1.5.1
 typing_extensions==4.4.0
