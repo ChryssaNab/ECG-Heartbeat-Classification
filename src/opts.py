@@ -44,7 +44,7 @@ def parse_opts():
     # |---------------------------------------- Pre-training settings -----------------------------------------------|
     parser.add_argument(
         '--batch_size',
-        default=32,
+        default=4,
         type=int,
         help='Pre-training Batch size')
     parser.add_argument(
@@ -90,7 +90,7 @@ def parse_opts():
         type=int,
         help='Number of total epochs to run')
     parser.add_argument(
-        '--pretrain_path', default='', type=str, help='Pretrained model (.pth)')
+        '--pretrain_path', default='../output/save_21.pth', type=str, help='Pretrained model (.pth)')
     parser.add_argument(
         '--no_pre_training',
         action='store_false',

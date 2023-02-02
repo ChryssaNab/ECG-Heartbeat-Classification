@@ -42,7 +42,7 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer, epoch_logger):
     # Save model's checkpoints
     state = {
         'epoch': epoch,
-        'net': model.state_dict(),
+        'state_dict': model.state_dict(),
         'optimizer': optimizer.state_dict()
     }
 
