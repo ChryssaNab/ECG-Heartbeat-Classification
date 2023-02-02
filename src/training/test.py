@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def test(data_loader, model, criterion):
+def test(data_loader, model, criterion, epoch_logger):
     # Switch to test mode
     model.eval()
     test_loss, total, confusion_vector = 0, 0, 0
@@ -33,14 +33,13 @@ def test(data_loader, model, criterion):
     precision = tp / (tp + fp)
     specificity = tn / (tn + fp)
 
-    # Save checkpoints
-    state = {
-        'test_loss': test_loss / (batch_idx + 1),
-        'test_accuracy': 100. * ((tp + tn) / total),
-        'test_balanced_accuracy': 100. * (recall + specificity) / 2,
-        'test_recall': recall,
-        'test_precision': precision,
-        'test_F1-score': 2 * (recall * precision) / (precision + recall)
-    }
+    epoch_logger.log({
+        'loss': test_loss / (batch_idx + 1),
+        'accuracy': 100. * ((tp + tn) / total),
+        'balanced_accuracy': 100. * (recall + specificity) / 2,
+        'recall': recall,
+        'precision': precision,
+        'F1-score': 2 * (recall * precision) / (precision + recall)
+    })
 
-    return state
+    return 100. * (recall + specificity) / 2

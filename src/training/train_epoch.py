@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def train_epoch(epoch, data_loader, model, criterion, optimizer):
+def train_epoch(epoch, data_loader, model, criterion, optimizer, epoch_logger):
     print('Epoch: {}, Learning Rate: {}'.format(epoch, optimizer.param_groups[0]['lr']))
 
     # Switch to train mode
@@ -39,18 +39,23 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
     precision = tp / (tp + fp)
     specificity = tn / (tn + fp)
 
-    # Save checkpoints
+    # Save model's checkpoints
     state = {
-        'net': model.state_dict(),
-        'optimizer': optimizer.state_dict(),
         'epoch': epoch,
-        'train_loss': train_loss / (batch_idx + 1),
-        'train_accuracy': 100. * ((tp + tn) / total),
-        'train_balanced_accuracy': 100. * (recall + specificity) / 2,
-        'train_recall': recall,
-        'train_precision': precision,
-        'train_F1-score': 2 * (recall * precision) / (precision + recall)
+        'net': model.state_dict(),
+        'optimizer': optimizer.state_dict()
     }
+
+    epoch_logger.log({
+        'epoch': epoch,
+        'loss': train_loss / (batch_idx + 1),
+        'lr': optimizer.param_groups[0]['lr'],
+        'accuracy': 100. * ((tp + tn) / total),
+        'balanced_accuracy': 100. * (recall + specificity) / 2,
+        'recall': recall,
+        'precision': precision,
+        'F1-score': 2 * (recall * precision) / (precision + recall)
+    })
 
     print(f"Training Balanced Accuracy: {100. * (recall + specificity) / 2}")
 

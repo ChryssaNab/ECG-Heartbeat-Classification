@@ -1,4 +1,6 @@
 import os
+import shutil
+
 import torch
 
 from torch import nn, optim
@@ -10,6 +12,7 @@ from training.test import test
 from training.train_epoch import train_epoch
 from training.val_epoch import val_epoch
 from models_generation import generate_model
+from utils import WriteLogger
 
 
 def run(opt, patients):
@@ -63,21 +66,30 @@ def run(opt, patients):
         save_file_path = opt.output_path
     else:
         save_file_path = os.path.join(opt.output_path, opt.state, patients[0])
-    if not os.path.exists(save_file_path):
-        os.makedirs(save_file_path)
 
-    # Start training
+    # Remove folder if already exists
+    if os.path.exists(save_file_path):
+        shutil.rmtree(save_file_path)
+    os.makedirs(save_file_path)
+
+    # Collect evaluation metrics during training, validation, and test processes
+    train_logger = WriteLogger(
+        os.path.join(save_file_path, 'train.log'), ['epoch', 'loss', 'lr', 'accuracy', 'balanced_accuracy', 'recall', 'precision', 'F1-score'])
+    val_logger = WriteLogger(
+        os.path.join(save_file_path, 'val.log'),  ['epoch', 'loss', 'accuracy', 'balanced_accuracy', 'recall', 'precision', 'F1-score'])
+    test_logger = WriteLogger(
+        os.path.join(save_file_path, 'test.log'),  ['loss', 'accuracy', 'balanced_accuracy', 'recall', 'precision', 'F1-score'])
+
     for epoch in range(opt.n_epochs):
+        # Start training
+        train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer, train_logger)
+        scheduler = val_epoch(epoch, val_dataloader, model, criterion, scheduler, val_logger)
 
-        train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer)
-        val_state, scheduler = val_epoch(epoch, val_dataloader, model, criterion, scheduler)
-
-        # Save checkpoints
-        train_state.update(val_state)
+        # Save model checkpoints
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')
         torch.save(train_state, save_path)
 
-    test_state = test(test_dataloader, model, criterion)
+    test_balanced_accuracy = test(test_dataloader, model, criterion, test_logger)
 
-    return test_state['test_balanced_accuracy']
+    return test_balanced_accuracy
 

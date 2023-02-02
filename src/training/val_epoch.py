@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def val_epoch(epoch, data_loader, model, criterion, scheduler):
+def val_epoch(epoch, data_loader, model, criterion, scheduler, epoch_logger):
     # Switch to evaluation mode
     model.eval()
     val_loss, total, confusion_vector = 0, 0, 0
@@ -37,18 +37,17 @@ def val_epoch(epoch, data_loader, model, criterion, scheduler):
     precision = tp / (tp + fp)
     specificity = tn / (tn + fp)
 
-    # Save checkpoints
-    state = {
+    epoch_logger.log({
         'epoch': epoch,
-        'val_loss': val_loss / (batch_idx + 1),
-        'val_accuracy': 100. * ((tp + tn) / total),
-        'val_balanced_accuracy': 100. * (recall + specificity) / 2,
-        'val_recall': recall,
-        'val_precision': precision,
-        'val_F1-score': 2 * (recall * precision) / (precision + recall)
-    }
+        'loss': val_loss / (batch_idx + 1),
+        'accuracy': 100. * ((tp + tn) / total),
+        'balanced_accuracy': 100. * (recall + specificity) / 2,
+        'recall': recall,
+        'precision': precision,
+        'F1-score': 2 * (recall * precision) / (precision + recall)
+    })
 
     print(f"Validation Balanced Accuracy: {100. * (recall + specificity) / 2}")
     print()
 
-    return state, scheduler
+    return scheduler
