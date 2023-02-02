@@ -53,13 +53,13 @@ class Block(nn.Module):
 
 class CNN1D(nn.Module):
 
-    def __init__(self, block_channels, kernel_size):
+    def __init__(self, num_blocks, block_channels, kernel_size):
         super(CNN1D, self).__init__()
         self.block_channels = block_channels
         self.conv1 = nn.Conv1d(1, block_channels, kernel_size=1,
                                stride=1, padding=0, bias=False)
         self.blocks = nn.Sequential()
-        for _ in range(NUM_BLOCKS):
+        for _ in range(num_blocks):
             self.blocks.append(Block(in_channels=block_channels, out_channels=block_channels, kernel_size=kernel_size))
 
         num_features = 160
@@ -90,6 +90,7 @@ class CNN1D(nn.Module):
             f_net.linear.reset_parameters()
             f_net.linear2.reset_parameters()
         return f_net
+
 
 def cnn_1D(**kwargs):
     """ Constructs a 1D CNN model. """

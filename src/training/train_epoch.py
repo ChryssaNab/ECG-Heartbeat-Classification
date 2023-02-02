@@ -2,7 +2,8 @@ import torch
 from sklearn.metrics import confusion_matrix
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(f"Running on {device}")
+print(f"\nRunning on {device}")
+
 
 def train_epoch(epoch, data_loader, model, criterion, optimizer, epoch_logger):
     print('Epoch: {}, Learning Rate: {}'.format(epoch, optimizer.param_groups[0]['lr']))

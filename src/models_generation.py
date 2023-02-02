@@ -9,12 +9,14 @@ def generate_model(opt):
 
     if opt.state == 'pre-training' or opt.state == "individuals":
         model = cnn1D.cnn_1D(
+            num_blocks=opt.num_blocks,
             block_channels=opt.block_channels,
             kernel_size=opt.kernel_size)
 
     elif opt.state == "fine_tuning":
 
         model = cnn1D.cnn_1D(
+            num_blocks=opt.num_blocks,
             block_channels=opt.block_channels,
             kernel_size=opt.kernel_size)
 
