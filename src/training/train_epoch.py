@@ -42,6 +42,7 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer):
     # Save checkpoints
     state = {
         'net': model.state_dict(),
+        'optimizer': optimizer.state_dict(),
         'epoch': epoch,
         'train_loss': train_loss / (batch_idx + 1),
         'train_accuracy': 100. * ((tp + tn) / total),
