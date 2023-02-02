@@ -11,7 +11,7 @@ parameters= {
 }
 
 parameter_lists = [item for item in parameters.values()]
-parameter_sets = product(*parameter_lists)
+parameter_sets = list(product(*parameter_lists))
 
 def main():
     opt = parse_opts()
@@ -26,15 +26,15 @@ def main():
     # Set early stopping criterion for individuals and fine-tuning mode
     opt.early_stopping = True
 
-    test_balanced_accuracy = []
+    
     for patient in opt.selected_patients_fine_tuning:
 
         print('\nPatient:', patient)
-
+        test_balanced_accuracy = []
         for set in parameter_sets:
             (opt.batch_size, opt.learning_rate, opt.weighted_sampling) = set
             print(f"Setup: batch_size = {opt.batch_size}, learning_rate = {opt.learning_rate}, weighted_sampling = {opt.weighted_sampling}")
-            opt.output_path = f'..\\output\\{opt.batch_size}_{opt.learning_rate}_{opt.weighted_sampling}\\'
+            opt.output_path = os.path.join('..','output', f'{opt.batch_size}_{opt.learning_rate}_{opt.weighted_sampling}')
             test_bal_acc = run(opt, [patient])
             test_balanced_accuracy.append(test_bal_acc)
 

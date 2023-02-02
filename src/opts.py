@@ -73,7 +73,7 @@ def parse_opts():
     parser.set_defaults(early_stopping=False)
     parser.add_argument(
         '--n_epochs',
-        default=30,
+        default=2,
         type=int,
         help='Maximum number of total epochs to run')
 
