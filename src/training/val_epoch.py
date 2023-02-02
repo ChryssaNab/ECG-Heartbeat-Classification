@@ -33,9 +33,13 @@ def val_epoch(epoch, data_loader, model, criterion, scheduler, epoch_logger):
     tp = confusion_vector[1][1]
     fp = confusion_vector[0][1]
     fn = confusion_vector[1][0]
-    recall = tp / (tp + fn)
-    precision = tp / (tp + fp)
-    specificity = tn / (tn + fp)
+    recall = max(0, tp / (tp + fn))
+    precision = max(0, tp / (tp + fp))
+    specificity = max(0, tn / (tn + fp))
+    if precision + recall == 0:
+        F1_score = 0
+    else:
+        F1_score = 2 * (recall * precision) / (precision + recall)
 
     epoch_logger.log({
         'epoch': epoch,
@@ -44,7 +48,7 @@ def val_epoch(epoch, data_loader, model, criterion, scheduler, epoch_logger):
         'balanced_accuracy': 100. * (recall + specificity) / 2,
         'recall': recall,
         'precision': precision,
-        'F1-score': 2 * (recall * precision) / (precision + recall)
+        'F1-score': F1_score
     })
 
     print(f"Validation Balanced Accuracy: {100. * (recall + specificity) / 2}")
