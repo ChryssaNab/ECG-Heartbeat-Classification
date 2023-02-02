@@ -79,3 +79,5 @@ def run(opt, patients):
 
     test_state = test(test_dataloader, model, criterion)
 
+    return test_state['test_balanced_accuracy']
+

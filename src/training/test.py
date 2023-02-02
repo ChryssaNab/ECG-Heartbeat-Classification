@@ -43,6 +43,4 @@ def test(data_loader, model, criterion):
         'test_F1-score': 2 * (recall * precision) / (precision + recall)
     }
 
-    print(f"Test Balanced Accuracy: {100. * (recall + specificity) / 2}")
-
     return state
