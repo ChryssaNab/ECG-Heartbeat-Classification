@@ -73,9 +73,9 @@ def run(opt, patients):
         val_state, scheduler = val_epoch(epoch, val_dataloader, model, criterion, scheduler)
 
         # Save checkpoints
-        state = train_state.update(val_state)
+        train_state.update(val_state)
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')
-        torch.save(state, save_path)
+        torch.save(train_state, save_path)
 
     test_state = test(test_dataloader, model, criterion)
 
