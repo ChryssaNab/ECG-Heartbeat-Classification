@@ -19,7 +19,8 @@ def parse_opts():
         default=['100', '102', '104', '105', '106', '108', '114', '116', '119', '200', '202', '201', '203', '205',
                  '208', '209', '212', '210', '213', '215', '217', '219', '220', '222', '221', '228', '223', '231',
                  '233'],
-        type=list,
+        type=str,
+        nargs='+',
         help='List with the selected patients')
     parser.add_argument(
         '--state',
@@ -31,10 +32,10 @@ def parse_opts():
         default=128,
         type=int,
         help='Input dimension')
-    parser.add_argument(
-        '--no_cuda',
-        action='store_true',
-        help='If true, cuda is not used.')
+    # parser.add_argument(
+    #     '--no_cuda',
+    #     action='store_true',
+    #     help='If true, cuda is not used.')
     parser.set_defaults(no_cuda=True)
     parser.add_argument(
         '--only_individuals',
@@ -44,7 +45,7 @@ def parse_opts():
     # |---------------------------------------- Pre-training settings -----------------------------------------------|
     parser.add_argument(
         '--batch_size',
-        default=4,
+        default=32,
         type=int,
         help='Pre-training Batch size')
     parser.add_argument(
@@ -52,11 +53,11 @@ def parse_opts():
         default=32,
         type=int,
         help='Block channels')
-    parser.add_argument(
-        '--num_blocks',
-        default=4,
-        type=int,
-        help='Number of blocks')
+    # parser.add_argument(
+    #     '--num_blocks',
+    #     default=4,
+    #     type=int,
+    #     help='Number of blocks')
     parser.add_argument(
         '--kernel_size',
         default=5,
@@ -99,6 +100,7 @@ def parse_opts():
     parser.add_argument(
         '--weighted_sampling',
         type=bool,
+        default=True,
         help='Enable weighted sampling for training.'
     )
 

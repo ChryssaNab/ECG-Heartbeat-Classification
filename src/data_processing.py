@@ -5,7 +5,7 @@ import torch
 
 from scipy.signal import butter, filtfilt, resample
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, WeightedRandomSampler
+from torch.utils.data import DataLoader, WeightedRandomSampler, RandomSampler
 
 
 def z_norm(signal):
@@ -146,13 +146,12 @@ def createData(opt, data_list):
 
     return x_train, x_val, y_train, y_val, test_data, test_labels
 
-
 def get_balanced_sampler(annotations):
-    # Distinct classes
-    classes = list(set(annotations))
+
+    labels_distribution = np.array(np.unique(annotations, return_counts=True)).T
     # Here we create a dictionary with the class as the key and the indices on the annotations (and beats) list (array)
     # as the value
-    class_counts = {c : len([i for i in annotations if i == c]) for c in classes}
+    class_counts = {row[0]: row[1] for row in labels_distribution}
     # The method we will use to balance the dataset is oversampling
     sample_weights = [1 / class_counts[i] for i in annotations]
     # Weights: kind of probability of sample to be selected
@@ -163,22 +162,24 @@ def get_balanced_sampler(annotations):
 
 
 def get_dataloader(data, labels, batch_size=32, shuffle=False, drop_last=False, weightedSampling=False):
-    # Convert np.array to Tensor
-    data = torch.tensor(data).float()
-    labels = torch.tensor(labels).float()
-    dataset = list(zip(list(data), list(labels)))
-
+    #Important, this part should stay before the conversion of the labels to tensors
     # Set weighted sampler
     sampler = None
 
     if weightedSampling:
         sampler = get_balanced_sampler(labels)
 
+    # Convert np.array to Tensor
+    data = torch.tensor(data).float()
+    labels = torch.tensor(labels).float()
+    dataset = list(zip(list(data), list(labels)))
+
+    if sampler is None:
+        sampler = RandomSampler(dataset)
     # Get dataloader
     dataloader = DataLoader(dataset=dataset,
                             num_workers=0,
-                            batch_size=batch_size,
-                            shuffle=shuffle,
+                            batch_size=batch_size, #shuffle=shuffle, shuffle is mutually exclusive with sampler
                             pin_memory=True,
                             sampler=sampler,
                             drop_last=drop_last)

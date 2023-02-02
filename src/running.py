@@ -6,7 +6,6 @@ import torch
 
 from torch import nn, optim
 from torch.optim import lr_scheduler
-from torchsummary import summary
 
 from data_processing import createData, get_dataloader
 from training.test import test
@@ -15,9 +14,9 @@ from training.val_epoch import val_epoch
 from models_generation import generate_model
 from utils import WriteLogger
 
-
 def run(opt, patients):
 
+    print(opt)
     # Create global datasets for training, validation, and test
     x_train, x_val, y_train, y_val, x_test, y_test = createData(opt, patients)
 
