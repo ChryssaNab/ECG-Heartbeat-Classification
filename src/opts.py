@@ -34,7 +34,7 @@ def parse_opts():
         type=int,
         help='Input dimension')
     parser.add_argument(
-        '--pretrain_path', default='../output/save_21.pth', type=str, help='Pretrained model (.pth)')
+        '--pretrain_path', default='../output/save_16.pth', type=str, help='Pretrained model (.pth)')
 
     # |------------------------------------------ CNN default settings ----------------------------------------------|
     parser.add_argument(
