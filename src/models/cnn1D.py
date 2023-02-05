@@ -1,11 +1,6 @@
 import copy
-import os
-import torch
 from torch import nn
 import torch.nn.functional as F
-
-""" This class represents one block of two convolutional layers with a skip connection and is used as a building block 
-for the 1D ResNet. """
 
 NUM_BLOCKS = 4
 
@@ -20,6 +15,8 @@ def calc_padding(padding):
 
 
 class Block(nn.Module):
+    """ This class represents one block of two convolutional layers with a skip connection and is used as a building
+    block for the 1D ResNet."""
 
     def __init__(self, in_channels, out_channels, kernel_size):
         super(Block, self).__init__()
@@ -41,7 +38,7 @@ class Block(nn.Module):
         out = F.relu(self.conv1(x))
         out = self.conv2(out)
         # Add padding to the output of the second convolution to be able to add the results with those of the first
-        # (skip connection). Up for discussion.
+        # (skip connection).
         padding = x.size(2) - out.size(2)
         pl, pr = calc_padding(padding)
         out = F.pad(input=out, pad=(pl, pr), mode='replicate')
@@ -81,7 +78,6 @@ class CNN1D(nn.Module):
 
     # Get a deep copy of the network with the convolutional layers frozen. By default, the linear layers are not
     # re-initialized unless specified otherwise.
-    # Discuss with team if this what we want to do
     def get_frozen_cnn(self, keep_linear=True):
         f_net = copy.deepcopy(self)
         f_net.conv1.requires_grad_(False)

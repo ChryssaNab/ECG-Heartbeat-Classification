@@ -4,7 +4,7 @@ from opts import parse_opts
 from itertools import product
 
 
-parameters= {
+parameters = {
     'batch_size': [4,16,32],
     'learning_rate': [0.1, 0.01, 0.001],
     'weighted_sampling': [True, False]
@@ -12,6 +12,7 @@ parameters= {
 
 parameter_lists = [item for item in parameters.values()]
 parameter_sets = list(product(*parameter_lists))
+
 
 def main():
     opt = parse_opts()
@@ -26,7 +27,6 @@ def main():
     # Set early stopping criterion for individuals and fine-tuning mode
     opt.early_stopping = True
 
-    
     for patient in opt.selected_patients_fine_tuning:
 
         print('\nPatient:', patient)

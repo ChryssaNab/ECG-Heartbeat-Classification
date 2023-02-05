@@ -17,7 +17,7 @@ from utils import WriteLogger
 
 def run(opt, patients):
 
-    # Create global datasets for training, validation, and test
+    # Create datasets for training, validation, and test
     x_train, x_val, y_train, y_val, x_test, y_test = createData(opt, patients)
 
     # Get dataloaders for train, validation, and test sets
@@ -27,7 +27,6 @@ def run(opt, patients):
 
     # Generate model
     model, parameters = generate_model(opt)
-    # txt = summary(model=model, input_size=(opt.input_size, opt.block_channels, opt.num_blocks, opt.kernel_size))
 
     # Define loss function (criterion) and optimizer
     criterion = nn.BCELoss(reduction="mean")
@@ -62,6 +61,7 @@ def run(opt, patients):
     else:
         scheduler = None
 
+    # Create output files
     if opt.state == "pre-training":
         save_file_path = opt.output_path
     else:
@@ -84,8 +84,9 @@ def run(opt, patients):
     n_epochs_stop = 5
     epochs_no_improve = 0
     for epoch in range(opt.n_epochs):
-        # Start training
+        # Train the model on the training set
         train_state = train_epoch(epoch, train_dataloader, model, criterion, optimizer, train_logger)
+        # Evaluate the model on the validation set
         scheduler, val_loss = val_epoch(epoch, val_dataloader, model, criterion, scheduler, val_logger)
 
         if opt.state == "individuals" or opt.state == "fine_tuning":
@@ -96,12 +97,14 @@ def run(opt, patients):
             else:
                 epochs_no_improve += 1
             if epoch > 10 and epochs_no_improve == n_epochs_stop:
+                # Activate early stopping criterion
                 break
 
         # Save model checkpoints
         save_path = os.path.join(save_file_path, f'save_{epoch}.pth')
         torch.save(train_state, save_path)
 
+    # Evaluate the model on the test set after training is completed
     test_balanced_accuracy = test(test_dataloader, model, criterion, test_logger)
 
     return test_balanced_accuracy

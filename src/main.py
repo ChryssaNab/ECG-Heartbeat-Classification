@@ -12,6 +12,7 @@ random.seed(0)
 np.random.seed(0)
 torch.manual_seed(0)
 
+# Set optimal parameters for each patient as occurred from GridSearch
 optimal_parameters = {'100': {'batch_size': 4, 'learning_rate': 0.001, 'weighted_sampling': True},
                       '102': {'batch_size': 4, 'learning_rate': 0.001, 'weighted_sampling': True},
                       '104': {'batch_size': 4, 'learning_rate': 0.001, 'weighted_sampling': False},
@@ -62,9 +63,9 @@ def main():
         print("\nThe list of the selected patients is:", opt.selected_patients_fine_tuning)
         # Set early stopping criterion for individuals and fine-tuning mode
         opt.early_stopping = True
+        # Run either fine-tuning or simple training for each patient
         for patient in opt.selected_patients_fine_tuning:
             print('\nPatient:', patient)
-            #MAKE SURE TO INFORM THAT THESE PARAMETERS ARE OVERRIDEN
             if patient in optimal_parameters.keys():
                 opt.batch_size = optimal_parameters[patient]['batch_size']
                 opt.learning_rate = optimal_parameters[patient]['learning_rate']
