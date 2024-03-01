@@ -7,12 +7,12 @@ def parse_opts():
     # |----------------------------------------- Init settings ------------------------------------------------------|
     parser.add_argument(
         '--data_path',
-        default='../dataset/mitbih_database/',
+        default='./dataset/mitbih_database/',
         type=str,
         help='Data directory path')
     parser.add_argument(
         '--output_path',
-        default='../output/',
+        default='./output/',
         type=str,
         help='Output directory path')
     parser.add_argument(
@@ -34,7 +34,7 @@ def parse_opts():
         type=int,
         help='Input dimension')
     parser.add_argument(
-        '--pretrain_path', default='../output/save_16.pth', type=str, help='Pretrained model (.pth)')
+        '--pretrain_path', default='./output/save_16.pth', type=str, help='Pretrained model (.pth)')
 
     # |------------------------------------------ CNN default settings ----------------------------------------------|
     parser.add_argument(
