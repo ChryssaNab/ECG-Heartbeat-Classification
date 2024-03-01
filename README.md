@@ -108,7 +108,7 @@ Executing this command initiates the pre-training phase, using the hyperparamete
 
 ### [**Baseline Individual Classifiers**](#) <a name="baseline"></a>
 
-In our baseline models, we train a CNN model from scratch for each patient individually, using fully-supervised mode, without integrating pre-trained knowledge. To initiate this process, execute the following command:
+In our baseline models, we train a CNN model from scratch for each patient individually, using fully-supervised learning mode, without integrating pre-trained knowledge. To initiate this process, execute the following command:
 
 ``` shell
 $ python3 src/main.py --state individuals
