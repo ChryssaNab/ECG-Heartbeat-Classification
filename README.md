@@ -65,10 +65,10 @@ Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-databa
 To perform supervised pre-training on all patients using the default settings, run the following command:
 
 ``` shell
-$ python3 src/main.py --state pre-training
+$ python3 src/main.py --state pre-training <args>
 ```
 
-This command will start the experiment for the pre-training phase, with the parameters found in **opts.py**. This will create a folder named *output/* in the parent of the current directory, which will contain the checkpoints for the model state for each epoch and three log files containing the loss, accuracy, and other metrics for training, validation and test sets. The output folder can be specified with the flag `--output_path`. Other parameters defined in **opts.py** can tuned as well.
+This command will start the pre-training phase using the hyperparameters found in the **opts.py** script. This process will ultimately create a folder named *output/* under the parent directory, which will contain the checkpoints for the model state for each epoch and three log files containing the loss, accuracy, and other evaluation metrics for the training, validation, and test sets. The output folder can be specified with the flag `--output_path`. Other parameters defined in **opts.py** can be modified accordingly.
 
 ---
 
