@@ -62,7 +62,7 @@ Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-databa
 
 ### [**Pre-training**](#) <a name="pre_training"></a>
 
-To perform supervised pre-training directly on all patients, run the following command:
+To perform supervised pre-training on all patients using the default settings, run the following command:
 
 ``` shell
 $ python3 src/main.py --state pre-training
