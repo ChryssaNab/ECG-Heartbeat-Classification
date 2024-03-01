@@ -1,4 +1,4 @@
-# Classifying Pathological Heartbeats from ECG Signals
+# Classifying Pathological Heartbeats from <br > ECG Signals
 
 ### [**Contents**](#)
 1. [Project Description](#descr)
