@@ -80,7 +80,7 @@ The subsequent arguments may require modification:
 > 
 > --selected_patients_fine_tuning: This pertains to the list of patients earmarked for the experiments. Only applies to the baseline individual models and fine-tuning models that target certain patients.
 > 
-> --weight_decay: The weight decay hyperparameter of the optimizer
+> --weight_decay: The weight decay hyperparameter value of the optimizer
 > 
 > --n_epochs: The maximum number of epochs for training
 > 
