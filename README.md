@@ -62,7 +62,7 @@ Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-databa
 ---
 
 ### [**Execution**](#) <a name="execution"></a>
-The primary execution script for the entire project resides in the *main.py* file within the *src/* directory. The potential arguments for executing this script are specified within the *opts.py* scrip. To view them use the following command:
+The primary execution script for the entire project resides in the *main.py* file within the *src/* directory. The possible arguments for executing this script are specified within the *opts.py* script. For viewing, use the following command:
 
 ``` shell
 $ python3 src/main.py -h
@@ -76,17 +76,17 @@ The subsequent arguments may require modification:
 > 
 > --selected_patients_fine_tuning: This pertains to the list of patients earmarked for the experiments. Only applies to the baseline individual models and fine-tuning models that target certain patients.
 
-The following arguments can be provided to tune the settings of the training:
+Below are the arguments available for adjusting the training settings:
 
 > --weight_decay: The value of the weight decay parameter of the optimizer
 > 
-> --n_epochs: The maximum number of epochs of training
+> --n_epochs: The maximum number of epochs for training
 > 
 > --batch_size: The batch size used for training.
 > 
 > --learning_rate: The initial learning rate
 > 
-> --weighted_sampling: Whether weighed sampling is enabled or not
+> --weighted_sampling: Indicates whether weighted sampling is enabled.
 
 Note that for the _individuals_ and _fine-tuning_ phases, the parameters `--batch_size`, `--learning_rate`, and `--weighted_sampling` are determined through a grid-search approach for each patient separately.
 
@@ -106,7 +106,7 @@ Executing this command initiates the pre-training phase, using the hyperparamete
 
 ### [**Baseline individual classifiers**](#) <a name="baseline"></a>
 
-In our baseline models, we individually train a CNN model from scratch for each patient in a fully-supervised mode, without incorporating pre-trained knowledge. To do this, run the following command:
+In our baseline models, we train a CNN model from scratch for each patient individually, using fully-supervised mode, without integrating pre-trained knowledge. To initiate this process, execute the following command:
 
 ``` shell
 $ python3 src/main.py --state individuals
@@ -118,15 +118,15 @@ Executing this command initiates experiments where we individually train a CNN m
 
 ### [**Fine-tuning classifiers**](#) <a name="fine_tuning"></a>
 
-To employ transfer learning and conduct fine-tuning for each individual patient, execute the following command:
+To leverage transfer learning and conduct fine-tuning for each individual patient, execute the following command:
 
 ``` shell
 $ python3 src/main.py --state fine_tuning --pretrain_path ./output/save_<x>.pth
 ```
 
-In this command, the `--pretrain_path` argument indicates the model checkpoint intended for fine-tuning. We retain the model checkpoint from the epoch with the lowest validation loss during pre-training. Replace <x> with the corresponding epoch number.
+In this command, the `--pretrain_path` argument indicates the model checkpoint intended for fine-tuning. We retain the model checkpoint from the epoch with the lowest validation loss during pre-training. Replace \<x\> with the corresponding epoch number.
 
-Executing this command initiates experiments where we fine-tune the top-performing CNN produced during the pre-training phase for each patient within our curated subset. This process generates the *fine_tuning/* folder within the existing *output/* directory, comprising individual folders for each patient. Each patient's folder contains identical files as those described in the pre-training section. You can designate the output folder using the `--output_path` flag.
+Executing this command initiates experiments where we fine-tune the CNN model produced during the pre-training phase for each patient within our curated subset. This process generates the *fine_tuning/* folder within the existing *output/* directory, comprising individual folders for each patient. Each patient's folder contains identical files as those described in the pre-training section. You can designate the output folder using the `--output_path` flag.
 
 ---
 
