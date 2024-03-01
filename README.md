@@ -68,7 +68,7 @@ To perform supervised pre-training on all patients using the default settings, r
 $ python3 src/main.py --state pre-training <args>
 ```
 
-This command will start the pre-training phase using the hyperparameters found in the **opts.py** script. This process will ultimately create a folder named *output/* under the parent directory, which will contain the checkpoints for the model state for each epoch and three log files containing the loss, accuracy, and other evaluation metrics for the training, validation, and test sets. The output folder can be specified with the flag `--output_path`. Other parameters defined in **opts.py** can be modified accordingly.
+Executing this command initiates the pre-training phase, using the hyperparameters specified in the **opts.py** script. Resultantly, a folder named *output/* will be generated within the parent directory, housing model state checkpoints for each epoch and three log files encompassing metrics like loss, accuracy, and other evaluations for training, validation, and test sets. The output folder location can be specified using the `--output_path` flag, while other parameters in **opts.py** can be adjusted accordingly.
 
 ---
 
