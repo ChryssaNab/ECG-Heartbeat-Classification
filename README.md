@@ -7,7 +7,7 @@
 3. [Pre-training](#pre_training)
 4. [Baseline Classifiers](#baseline)
 5. [Fine-tuning](#fine_tuning)
-6. [Parameter Tuning](#parameter_tuning)
+6. [Hyperparameter Tuning](#parameter_tuning)
 7. [Team](#team)
 
 ---
@@ -92,7 +92,7 @@ This command will start the experiments in which we fine tune the best performin
 
 ---
 
-### [**Parameter Tuning**](#) <a name="parameter_tuning"></a>
+### [**Hyperparameter Tuning**](#) <a name="parameter_tuning"></a>
 
 It is possible to tune the parameters of the experiments from the command line. However, not all parameters defined in opts.py can be changed without unpredictable results. The list of tunable parameters is:
 
