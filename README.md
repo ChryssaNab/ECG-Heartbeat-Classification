@@ -7,16 +7,16 @@
 3. [Execution](#execution)
 4. [Pre-training](#pre_training)
 5. [Baseline Individual Classifiers](#baseline)
-6. [Fine-tuning](#fine_tuning)
-7. [Hyperparameter Tuning](#parameter_tuning)
-8. [Team](#team)
+6. [Fine-tuning Classifiers](#fine_tuning)
+7. [Team](#team)
 
 ---
 
 ### [**Project Description**](#) <a name="descr"></a>
 
-In this project, we train deep Convolutional Neural Networks (CNNs) to perform binary classification of ECG beats to normal and abnormal. We use transfer learning in order to build models that are fine-tuned on specific patients’ data, after pre-training a generic network on a set of different ECGs selected from the MIT-BIH arrhythmia database. We then compare the
-performance of the fine-tuned networks against that of individual networks, which are trained only on the ECG data of a single patient, in order to evaluate the overall efficacy of transfer learning on the given problem.
+In this project, we train deep Convolutional Neural Networks (CNNs) to perform binary classification of ECG beats to normal and abnormal. We use transfer learning in order to build models that are fine-tuned on specific patients’ data, after pre-training a generic network on a set of different ECGs selected from the MIT-BIH arrhythmia database [[1]](#1). We then compare the performance of the fine-tuned networks against that of individual networks, which are trained only on the ECG data of a single patient, in order to evaluate the overall efficacy of transfer learning on the given problem.
+
+The current project was implemented in the context of the course "Machine Learning" taught by [Professor Herbert Jaeger](https://scholar.google.de/citations?hl=de&user=0uztVbMAAAAJ&view_op=list_works&sortby=pubdate) at [University of Groningen](https://www.rug.nl/?lang=en). 
 
 ---
 
@@ -57,24 +57,38 @@ $ pip install -r requirements.txt
 
 ### [**Data Configuration**](#) <a name="dataset"></a>
 
-Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent folder of this directory under a directory named *dataset/mitbih_database*.
+Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent folder under a directory named *dataset/mitbih_database*.
 
 ---
 
 ### [**Execution**](#) <a name="execution"></a>
-The primary execution script resides in the *main.py* file within the *src/* directory. To view the potential arguments for executing this script, use the following command:
+The primary execution script for the entire project resides in the *main.py* file within the *src/* directory. The potential arguments for executing this script are specified within the *opts.py* scrip. To view them use the following command:
 
 ``` shell
 $ python3 src/main.py -h
 ```
 
-These arguments are specified within the *opts.py* script. The subsequent arguments may require modification:
+The subsequent arguments may require modification:
 
 > --data_path: The directory under which the dataset lies. Needs to be specified if the dataset is not copied to the directory named above.
 > 
 > --output_path: The folder where the checkpoints and log files will be created (default="./output/").
 > 
 > --selected_patients_fine_tuning: This pertains to the list of patients earmarked for the experiments. Only applies to the baseline individual models and fine-tuning models that target certain patients.
+
+The following arguments can be provided to tune the settings of the training:
+
+> --weight_decay: The value of the weight decay parameter of the optimizer
+> 
+> --n_epochs: The maximum number of epochs of training
+> 
+> --batch_size: The batch size used for training.
+> 
+> --learning_rate: The initial learning rate
+> 
+> --weighted_sampling: Whether weighed sampling is enabled or not
+
+Note that for the _individuals_ and _fine-tuning_ phases, the parameters `--batch_size`, `--learning_rate`, and `--weighted_sampling` are determined through a grid-search approach for each patient separately.
 
 ---
 
@@ -83,50 +97,42 @@ These arguments are specified within the *opts.py* script. The subsequent argume
 To perform supervised pre-training on all patients using the default settings, run the following command:
 
 ``` shell
-$ python3 src/main.py --state pre-training [--args]
+$ python3 src/main.py --state pre-training
 ```
 
 Executing this command initiates the pre-training phase, using the hyperparameters specified in the *opts.py* script. Resultantly, a folder named *output/* will be generated within the parent directory, housing model state checkpoints for each epoch and three log files encompassing metrics like loss, accuracy, and other evaluations for training, validation, and test sets. The output folder location can be specified using the `--output_path` flag, while other parameters in *opts.py* can be adjusted accordingly.
 
 ---
 
-### [**Baseline Individual Classifiers**](#) <a name="baseline"></a>
+### [**Baseline individual classifiers**](#) <a name="baseline"></a>
 
 In our baseline models, we individually train a CNN model from scratch for each patient in a fully-supervised mode, without incorporating pre-trained knowledge. To do this, run the following command:
 
 ``` shell
-$ python3 src/main.py --state individuals [--args]
+$ python3 src/main.py --state individuals
 ```
 
-Executing this command initiates experiments where we individually train the CNN for each selected patient, employing the optimal parameter set determined through grid search. Consequently, a directory named *individuals/* will be generated within the existing *output/* folder, comprising one sub-folder per patient. Each patient's folder will contain identical files as those described in the pre-training section. The output folder location can be specified using the `--output_path` flag.
+Executing this command initiates experiments where we individually train a CNN model for each selected patient, employing the optimal parameter set determined through grid-search. Consequently, a folder named *individuals/* will be generated within the existing *output/* directory, comprising one sub-folder per patient. Each patient's folder will contain identical files as those described in the pre-training section. The output folder location can be specified using the `--output_path` flag.
 
 ---
 
-### [**Fine-tuning**](#) <a name="fine_tuning"></a>
+### [**Fine-tuning classifiers**](#) <a name="fine_tuning"></a>
 
-To leverage transfer learning and conduct fine-tuning for each individual patient, execute the following command:
+To employ transfer learning and conduct fine-tuning for each individual patient, execute the following command:
 
 ``` shell
-$ python3 src/main.py --state fine_tuning --pretrain_path ./output/save_<x>.pth [--args]
+$ python3 src/main.py --state fine_tuning --pretrain_path ./output/save_<x>.pth
 ```
 
 In this command, the `--pretrain_path` argument indicates the model checkpoint intended for fine-tuning. We retain the model checkpoint from the epoch with the lowest validation loss during pre-training. Replace <x> with the corresponding epoch number.
 
-Executing this command initiates experiments where we fine-tune the top-performing CNN produced during the pre-training phase for each patient within our curated subset. This process generates the *fine_tuning/* folder within the *output/* directory, comprising individual folders for each patient. Each patient's folder contains identical files as those described in the pre-training section. You can designate the output folder using the `--output_path` flag.
+Executing this command initiates experiments where we fine-tune the top-performing CNN produced during the pre-training phase for each patient within our curated subset. This process generates the *fine_tuning/* folder within the existing *output/* directory, comprising individual folders for each patient. Each patient's folder contains identical files as those described in the pre-training section. You can designate the output folder using the `--output_path` flag.
 
 ---
 
-### [**Hyperparameter Tuning**](#) <a name="parameter_tuning"></a>
-
-It is possible to tune the parameters of the experiments from the command line. However, not all parameters defined in opts.py can be changed without unpredictable results. The list of tunable parameters is:
-
-- weight_decay: The value of the weight decay parameter of the optimizer.
-- n_epochs: The maximum number of epochs for which the experiment will run.
-- batch_size: The batch size used for training
-- learning_rate: The initial learning rate
-- weighted_sampling: Whether weighed sampling is enabled or not
-
-Note that for the _individuals_ and _fine-tuning_ phases, setting the parameters _batch\_size_, _learning\_rate_ and _weighted\_sampling_ will have no effect, since they will be overriden by the optimal paramer set for each patient.
+## References
+<a id="1">[1]</a> 
+G. B. Moody and R. G. Mark (2001). The impact of the MIT-BIH Arrhythmia Database. *In IEEE Engineering in Medicine and Biology Magazine (pp. 45-50)*. DOI: 10.1109/51.932724.
 
 ---
 
