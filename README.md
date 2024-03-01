@@ -16,7 +16,7 @@
 
 In this project, we train deep Convolutional Neural Networks (CNNs) to perform binary classification of ECG beats to normal and abnormal. We use transfer learning in order to build models that are fine-tuned on specific patients’ data, after pre-training a generic network on a set of different ECGs selected from the MIT-BIH arrhythmia database [[1]](#1). We then compare the performance of the fine-tuned networks against that of individual networks, which are trained only on the ECG data of a single patient, in order to evaluate the overall efficacy of transfer learning on the given problem.
 
-The current project was implemented in the context of the course "Machine Learning" taught by [Professor Herbert Jaeger](https://scholar.google.de/citations?hl=de&user=0uztVbMAAAAJ&view_op=list_works&sortby=pubdate) at [University of Groningen](https://www.rug.nl/?lang=en). For a comprehensive overview of the methodology and final results, please refer to the [Report](https://github.com/ChryssaNab/ECG-Heartbeat-Classification/blob/main/report/Heartbeat_Classification_ECG.pdf).
+The current project was implemented in the context of the course "Machine Learning" taught by [Prof. Herbert Jaeger](https://scholar.google.de/citations?hl=de&user=0uztVbMAAAAJ&view_op=list_works&sortby=pubdate) at [University of Groningen](https://www.rug.nl/?lang=en). For a comprehensive overview of the methodology and final results, please refer to the [Report](https://github.com/ChryssaNab/ECG-Heartbeat-Classification/blob/main/report/Heartbeat_Classification_ECG.pdf).
 
 ---
 
