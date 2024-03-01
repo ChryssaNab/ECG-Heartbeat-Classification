@@ -1,37 +1,65 @@
-# MachineLearning_RUG
+# Classifying Pathological Heartbeats from ECG Signals
 
-## Environment setup
-
----
-
-The python version this code was tested on is python 3.10, although it should work for earlier versions as well. To create the environment execute the following commands in succession:
-
-`python -m venv .venv`
-
-`source .venv/Scripts/activate` or `source .venv/bin/activate` depending on your platform
-
-`python -m pip install --upgrade pip`
-
-`pip install wheel`
-
-`pip install -r requirements.txt`
-
-In case your system has CUDA support and you would like to activate it:
-
-`pip uninstall torch`
-
-`pip install torch --extra-index-url https://download.pytorch.org/whl/cu117`
-
-
-Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent folder of this directory under a directory named 'dataset\\mitbih_database'.
-
-## Execution instructions
+### [**Contents**](#)
+1. [Project Description](#descr)
+1. [Setup](#setup)
+2. [Data Configuration](#dataset)
+3. [Team](#team)
 
 ---
 
-### Pre-training
+### [**Project Description**](#) <a name="descr"></a>
 
 ---
+
+### [**Setup**](#) <a name="setup"></a>
+
+**1.** We assume that Python3 is already installed in the system. The python version this code was tested on is python 3.10, although it should work for earlier versions as well.
+
+**2.** Clone this repository:
+
+``` shell
+$ git clone https://github.com/ChryssaNab/Machine_Learning_RUG.git
+$ cd Machine_Learning_RUG
+```
+
+ **3.** Create a new Python environment and activate it:
+
+``` shell
+$ python3 -m venv env
+$ source env/bin/activate
+```
+
+**4.** Modify the *requirements.txt* file: 
+
+> If your machine **does NOT support** CUDA, add the following line at the top of the *requirements.txt* file:
+>> extra-index-url https://download.pytorch.org/whl/cpu
+>
+> If your machine **does support** CUDA, add the following line instead, replacing **117** with the CUDA version your machine supports:
+>> extra-index-url https://download.pytorch.org/whl/cu117
+
+**5.** Install necessary requirements:
+
+``` shell
+$ python3 -m pip install --upgrade pip
+$ pip install wheel
+$ pip install -r requirements.txt
+```
+
+---
+
+### [**Data Configuration**](#) <a name="dataset"></a>
+
+**1.** Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent folder of this directory under a directory named *dataset/mitbih_database*.
+
+---
+
+### [**Execution**](#) <a name="execution"></a>
+
+
+#### Pre-training
+
+
 
 `python main.py --state pre-training`
 
@@ -68,3 +96,10 @@ It is possible to tune the parameters of the experiments from the command line. 
 - weighted_sampling: Whether weighed sampling is enabled or not
 
 Note that for the _individuals_ and _fine-tuning_ phases, setting the parameters _batch\_size_, _learning\_rate_ and _weighted\_sampling_ will have no effect, since they will be overriden by the optimal paramer set for each patient.
+
+### [**Team**](#) <a name="team"></a>
+
+- [Chryssa Nampouri](https://github.com/ChryssaNab)
+- [Philip Andreadis](https://github.com/philip-andreadis)
+- Christodoulos Hadjichristodoulou
+- Marios Souroulla
