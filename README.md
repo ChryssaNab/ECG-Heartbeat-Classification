@@ -41,7 +41,6 @@ $ source env/bin/activate
 **5.** Install necessary requirements:
 
 ``` shell
-$ python3 -m pip install --upgrade pip
 $ pip install wheel
 $ pip install -r requirements.txt
 ```
