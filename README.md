@@ -31,8 +31,8 @@ The current project was implemented in the context of the course "Machine Learni
 **2.** Clone this repository:
 
 ``` shell
-$ git clone https://github.com/ChryssaNab/Machine_Learning_RUG.git
-$ cd Machine_Learning_RUG
+$ git clone https://github.com/ChryssaNab/ECG-Heartbeat-Classification.git
+$ cd ECG-Heartbeat-Classification
 ```
 
  **3.** Create a new Python environment and activate it:
