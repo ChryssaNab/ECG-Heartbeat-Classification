@@ -61,7 +61,7 @@ $ pip install -r requirements.txt
 
 ### [**Data Configuration**](#) <a name="dataset"></a>
 
-Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent folder under a directory named *dataset/mitbih_database*.
+Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-database and copy the contents to the parent directory under a folder named *dataset/mitbih_database/*.
 
 ---
 
