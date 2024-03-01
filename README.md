@@ -4,11 +4,12 @@
 1. [Project Description](#descr)
 1. [Setup](#setup)
 2. [Data Configuration](#dataset)
-3. [Pre-training](#pre_training)
-4. [Baseline Classifiers](#baseline)
-5. [Fine-tuning](#fine_tuning)
-6. [Hyperparameter Tuning](#parameter_tuning)
-7. [Team](#team)
+3. [Execution](#execution)
+4. [Pre-training](#pre_training)
+5. [Baseline Classifiers](#baseline)
+6. [Fine-tuning](#fine_tuning)
+7. [Hyperparameter Tuning](#parameter_tuning)
+8. [Team](#team)
 
 ---
 
@@ -60,15 +61,24 @@ Download the dataset from https://www.kaggle.com/datasets/mondejar/mitbih-databa
 
 ---
 
+### [**Execution**](#) <a name="execution"></a>
+The primary execution script resides in the *main.py* file within the *src/* directory. To view the potential arguments for executing this script, use the following command:
+
+``` shell
+$ python3 src/main.py -h
+```
+
+---
+
 ### [**Pre-training**](#) <a name="pre_training"></a>
 
 To perform supervised pre-training on all patients using the default settings, run the following command:
 
 ``` shell
-$ python3 src/main.py --state pre-training <args>
+$ python3 src/main.py --state pre-training [--args]
 ```
 
-Executing this command initiates the pre-training phase, using the hyperparameters specified in the **opts.py** script. Resultantly, a folder named *output/* will be generated within the parent directory, housing model state checkpoints for each epoch and three log files encompassing metrics like loss, accuracy, and other evaluations for training, validation, and test sets. The output folder location can be specified using the `--output_path` flag, while other parameters in **opts.py** can be adjusted accordingly.
+Executing this command initiates the pre-training phase, using the hyperparameters specified in the *opts.py* script. Resultantly, a folder named *output/* will be generated within the parent directory, housing model state checkpoints for each epoch and three log files encompassing metrics like loss, accuracy, and other evaluations for training, validation, and test sets. The output folder location can be specified using the `--output_path` flag, while other parameters in *opts.py* can be adjusted accordingly.
 
 ---
 
