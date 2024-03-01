@@ -14,7 +14,7 @@
 
 ### [**Setup**](#) <a name="setup"></a>
 
-**1.** We assume that Python3 is already installed in the system. The python version this code was tested on is python 3.10, although it should work for earlier versions as well.
+**1.** We assume that Python3 is already installed on the system. This code has been tested on Python version 3.10, though it should also be compatible with earlier versions.
 
 **2.** Clone this repository:
 
