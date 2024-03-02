@@ -104,13 +104,13 @@ options:
   --weight_decay WEIGHT_DECAY
                         Weight decay hyperparameter value of optimizer
   --early_stopping      Set to TRUE only for baseline or fine-tuning mode.
-  --n_epochs N_EPOCHS   The maximum number of total epochs to run
+  --n_epochs N_EPOCHS   The maximum number of total epochs to run.
   --batch_size BATCH_SIZE
                         Batch size used during pre-training.
   --learning_rate LEARNING_RATE
                         Initial learning rate
   --weighted_sampling WEIGHTED_SAMPLING
-                        Enable weighted sampling for training.
+                        Enable weighted sampling during training.
 ```
 
 <!---
