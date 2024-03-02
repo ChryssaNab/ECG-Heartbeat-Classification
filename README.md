@@ -70,8 +70,50 @@ The primary execution script for the entire project is the *main.py* file within
 
 ``` shell
 $ python3 src/main.py -h
+
+Running on cpu
+usage: main.py [-h] [--data_path DATA_PATH] [--output_path OUTPUT_PATH] [--state STATE] [--selected_patients_fine_tuning SELECTED_PATIENTS_FINE_TUNING [SELECTED_PATIENTS_FINE_TUNING ...]]
+               [--input_size INPUT_SIZE] [--pretrain_path PRETRAIN_PATH] [--num_blocks NUM_BLOCKS] [--block_channels BLOCK_CHANNELS] [--kernel_size KERNEL_SIZE] [--optimizer OPTIMIZER]
+               [--lr_scheduler LR_SCHEDULER] [--weight_decay WEIGHT_DECAY] [--early_stopping] [--n_epochs N_EPOCHS] [--batch_size BATCH_SIZE] [--learning_rate LEARNING_RATE]
+               [--weighted_sampling WEIGHTED_SAMPLING]
+
+options:
+  -h, --help            show this help message and exit
+  --data_path DATA_PATH
+                        The data directory path under which the dataset lies.
+  --output_path OUTPUT_PATH
+                        The output directory path where the checkpoints and log files are created.
+  --state STATE         (pre-training | baseline individuals | fine-tuning individuals)
+  --selected_patients_fine_tuning SELECTED_PATIENTS_FINE_TUNING [SELECTED_PATIENTS_FINE_TUNING ...]
+                        The list of the selected patients earmarked for the experiments.
+                        Only applies to the baseline individual models and fine-tuning models that target certain patients.
+  --input_size INPUT_SIZE
+                        Input dimension
+  --pretrain_path PRETRAIN_PATH
+                        The pre-trained model checkpoint (.pth)
+  --num_blocks NUM_BLOCKS
+                        Number of blocks
+  --block_channels BLOCK_CHANNELS
+                        Block channels
+  --kernel_size KERNEL_SIZE
+                        The convolution kernel size of CNN
+  --optimizer OPTIMIZER
+                        (Adam | SGD)
+  --lr_scheduler LR_SCHEDULER
+                        (reducelr | cycliclr | cosAnnealing)
+  --weight_decay WEIGHT_DECAY
+                        Weight decay hyperparameter value of optimizer
+  --early_stopping      If true, we are on baseline or fine-tuning mode.
+  --n_epochs N_EPOCHS   The maximum number of total epochs to run
+  --batch_size BATCH_SIZE
+                        Pre-training batch size
+  --learning_rate LEARNING_RATE
+                        Initial learning rate
+  --weighted_sampling WEIGHTED_SAMPLING
+                        Enable weighted sampling for training.
 ```
 
+<!---
 The subsequent arguments may require modification:
 
 > --data_path: The directory under which the dataset lies.
@@ -89,6 +131,7 @@ The subsequent arguments may require modification:
 > --learning_rate: The initial learning rate
 > 
 > --weighted_sampling: Indicates whether weighted sampling is enabled.
+-->
 
 Note that for the _individuals_ and _fine-tuning_ phases, the parameters `--batch_size`, `--learning_rate`, and `--weighted_sampling` are determined through a grid-search approach for each patient separately.
 
