@@ -26,7 +26,7 @@ The current project was implemented in the context of the course "Machine Learni
 
 ### [**Setup**](#) <a name="setup"></a>
 
-**1.** We assume that Python3 is already installed on the system. This code has been tested on Python version 3.10, though it should also be compatible with earlier versions.
+**1.** We assume that Python3 is already installed on the system. The code has been tested on Python version 3.10, though it should also be compatible with earlier versions.
 
 **2.** Clone this repository:
 
@@ -88,7 +88,7 @@ options:
                         The list of the selected patients earmarked for the experiments.
                         Only applies to the baseline individual models and fine-tuning models that target certain patients.
   --input_size INPUT_SIZE
-                        Input dimension
+                        The size of each pulse-width window
   --pretrain_path PRETRAIN_PATH
                         The pre-trained model checkpoint (.pth)
   --num_blocks NUM_BLOCKS
@@ -103,10 +103,10 @@ options:
                         (reducelr | cycliclr | cosAnnealing)
   --weight_decay WEIGHT_DECAY
                         Weight decay hyperparameter value of optimizer
-  --early_stopping      If true, we are on baseline or fine-tuning mode.
+  --early_stopping      Set to TRUE only for baseline or fine-tuning mode.
   --n_epochs N_EPOCHS   The maximum number of total epochs to run
   --batch_size BATCH_SIZE
-                        Pre-training batch size
+                        Batch size used during pre-training.
   --learning_rate LEARNING_RATE
                         Initial learning rate
   --weighted_sampling WEIGHTED_SAMPLING
