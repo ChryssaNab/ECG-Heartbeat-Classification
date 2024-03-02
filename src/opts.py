@@ -94,7 +94,7 @@ def parse_opts():
         '--weighted_sampling',
         type=bool,
         default=True,
-        help='Enable weighted sampling for training.'
+        help='Enable weighted sampling during training.'
     )
 
     args = parser.parse_args()
