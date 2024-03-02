@@ -33,7 +33,7 @@ def parse_opts():
         '--input_size',
         default=128,
         type=int,
-        help='Input dimension')
+        help='The size of each pulse-width window')
     parser.add_argument(
         '--pretrain_path', default='./output/save_16.pth', type=str,
         help='The pre-trained model checkpoint (.pth)')
@@ -53,7 +53,7 @@ def parse_opts():
         '--kernel_size',
         default=5,
         type=int,
-        help='Size of kernel in CNN')
+        help='The convolution kernel size of CNN')
 
     # |--------------------------------------- Training global settings ----------------------------------------------|
     parser.add_argument(
@@ -67,24 +67,24 @@ def parse_opts():
         type=str,
         help='(reducelr | cycliclr | cosAnnealing)')
     parser.add_argument(
-        '--weight_decay', default=1e-4, type=float, help='Weight Decay')
+        '--weight_decay', default=1e-4, type=float, help='Weight decay hyperparameter value of optimizer')
     parser.add_argument(
         '--early_stopping',
         action='store_false',
-        help='If true, we are on baseline or fine-tuning mode.')
+        help='Set to TRUE only for baseline or fine-tuning mode.')
     parser.set_defaults(early_stopping=False)
     parser.add_argument(
         '--n_epochs',
         default=30,
         type=int,
-        help='Maximum number of total epochs to run')
+        help='The maximum number of total epochs to run.')
 
     # |---------------------------------------- Pre-training settings -----------------------------------------------|
     parser.add_argument(
         '--batch_size',
         default=32,
         type=int,
-        help='Pre-training batch size')
+        help='Batch size used during pre-training.')
     parser.add_argument(
         '--learning_rate',
         default=0.001,
